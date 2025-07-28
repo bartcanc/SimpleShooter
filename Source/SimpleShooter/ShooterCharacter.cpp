@@ -35,8 +35,11 @@ float AShooterCharacter::TakeDamage(float DamageAmount, struct FDamageEvent cons
 {
 	float DamageApplied = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 
-	Health -= DamageApplied;
-	UE_LOG(LogTemp, Display, TEXT("\nDamage Taken: %f\nCurrent Health: %f"), DamageApplied, Health);
+	if(Health > 0) 
+	{
+		Health -= DamageApplied;
+		UE_LOG(LogTemp, Display, TEXT("\nDamage Taken: %f\nCurrent Health: %f"), DamageApplied, Health);
+	}
 	return DamageApplied;
 }
 
