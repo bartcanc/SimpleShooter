@@ -5,6 +5,7 @@
 
 #include "Components/SkeletalMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "DrawDebugHelpers.h"
 
 // Sets default values
 AGun::AGun()
@@ -23,8 +24,30 @@ void AGun::PullTrigger()
 {
 	UE_LOG(LogTemp, Warning, TEXT("You've beed shot!"));
 	UGameplayStatics::SpawnEmitterAttached(MuzzleFlash, Mesh, TEXT("MuzzleFlashSocket"));
-}
 
+	APawn* PawnOwner = Cast<APawn>(GetOwner());
+	if(!PawnOwner or !PawnOwner->GetController()) return;
+	FVector LocationC;
+	FRotator RotationC;
+	PawnOwner -> GetController() -> GetPlayerViewPoint(LocationC, RotationC);
+
+	FVector End = LocationC + RotationC.Vector() * MaxRange;
+
+	//DrawDebugPoint(GetWorld(), End, 10, FColor::Red, true);
+	FHitResult Hit;
+	bool bSuccess = GetWorld() -> LineTraceSingleByChannel(Hit, LocationC, End, ECollisionChannel::ECC_GameTraceChannel1);
+
+	if(bSuccess) 
+	{
+		// mine
+		//UGameplayStatics::SpawnEmitterAtLocation(this, ImpactFlash, Hit.Location, FRotator::ZeroRotator, true);
+		
+		// udemy
+		FVector ShotDirection = -RotationC.Vector();
+		UGameplayStatics::SpawnEmitterAtLocation(this, ImpactFlash, Hit.Location, ShotDirection.Rotation(), true);
+		//DrawDebugPoint(GetWorld(), Hit.Location, 10, FColor::Red, true);
+	}
+}
 // Called when the game starts or when spawned
 void AGun::BeginPlay()
 {
