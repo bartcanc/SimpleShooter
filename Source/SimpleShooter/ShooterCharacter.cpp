@@ -93,3 +93,8 @@ void AShooterCharacter::Shoot()
 	Gun -> PullTrigger();
 }
 
+bool AShooterCharacter::IsDead() const
+{
+	return (Health <= 0);
+}
+

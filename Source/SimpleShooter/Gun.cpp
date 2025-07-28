@@ -69,4 +69,3 @@ void AGun::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
-

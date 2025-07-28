@@ -52,4 +52,7 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	float Health;
+
+	UFUNCTION(BlueprintPure)
+	bool IsDead() const;
 };
