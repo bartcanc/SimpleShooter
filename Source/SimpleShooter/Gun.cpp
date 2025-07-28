@@ -6,6 +6,7 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "DrawDebugHelpers.h"
+#include "Engine/DamageEvents.h"
 
 // Sets default values
 AGun::AGun()
@@ -22,7 +23,7 @@ AGun::AGun()
 
 void AGun::PullTrigger()
 {
-	UE_LOG(LogTemp, Warning, TEXT("You've beed shot!"));
+	
 	UGameplayStatics::SpawnEmitterAttached(MuzzleFlash, Mesh, TEXT("MuzzleFlashSocket"));
 
 	APawn* PawnOwner = Cast<APawn>(GetOwner());
@@ -46,6 +47,14 @@ void AGun::PullTrigger()
 		FVector ShotDirection = -RotationC.Vector();
 		UGameplayStatics::SpawnEmitterAtLocation(this, ImpactFlash, Hit.Location, ShotDirection.Rotation(), true);
 		//DrawDebugPoint(GetWorld(), Hit.Location, 10, FColor::Red, true);
+
+		
+		if(Hit.GetActor())
+		{
+			FPointDamageEvent DamageEvent(Damage, Hit, ShotDirection, nullptr);
+			Hit.GetActor() -> TakeDamage(Damage, DamageEvent, PawnOwner->GetController(), this);
+			UE_LOG(LogTemp, Warning, TEXT("You've beed shot!"));
+		} 
 	}
 }
 // Called when the game starts or when spawned
