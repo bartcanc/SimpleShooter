@@ -18,6 +18,9 @@ class SIMPLESHOOTER_API AShooterAIController : public AAIController
 	virtual void BeginPlay() override;
 
 	virtual void Tick(float DeltaTime) override;
+
+	private:
+	APawn* PlayerPawn;
 };
 
 
