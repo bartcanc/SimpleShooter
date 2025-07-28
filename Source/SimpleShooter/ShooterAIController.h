@@ -21,6 +21,7 @@ class SIMPLESHOOTER_API AShooterAIController : public AAIController
 
 	private:
 	APawn* PlayerPawn;
+	APawn* ControlledPawn;
 
 	UPROPERTY(EditAnywhere)
 	//float AcceptanceRadius = 200;
