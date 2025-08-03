@@ -4,6 +4,7 @@
 #include "ShooterCharacter.h"
 
 #include "Gun.h"
+#include "Components/CapsuleComponent.h"
 // Sets default values
 AShooterCharacter::AShooterCharacter()
 {
@@ -34,6 +35,12 @@ void AShooterCharacter::Tick(float DeltaTime)
 float AShooterCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser)
 {
 	float DamageApplied = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+
+	if(IsDead())
+	{
+		DetachFromControllerPendingDestroy();
+		GetCapsuleComponent() -> SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	}
 
 	if(Health > 0) 
 	{
