@@ -17,22 +17,13 @@ void AShooterAIController::BeginPlay()
     {
         RunBehaviorTree(AIBehavior);
         GetBlackboardComponent() -> SetValueAsVector(TEXT("StartLocation"), ControlledPawn->GetActorLocation());
-        // GetBlackboardComponent() -> SetValueAsVector(TEXT("PlayerLocation"), PlayerPawn->GetActorLocation());
     }
 }
 
 void AShooterAIController::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
-    if(LineOfSightTo(PlayerPawn)) 
-    {
-        GetBlackboardComponent() -> SetValueAsVector(TEXT("PlayerLocation"), PlayerPawn->GetActorLocation());
-        GetBlackboardComponent() -> SetValueAsVector(TEXT("LastKnownPlayerLocation"), PlayerPawn->GetActorLocation());
-    }
-    else
-    {
-       GetBlackboardComponent() -> ClearValue(TEXT("PlayerLocation"));
-    }
+
 }
 
 

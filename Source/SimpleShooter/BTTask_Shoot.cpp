@@ -16,7 +16,7 @@ EBTNodeResult::Type UBTTask_Shoot::ExecuteTask(UBehaviorTreeComponent& OwnerComp
     Super::ExecuteTask(OwnerComp, NodeMemory);
 
     AShooterCharacter* AIPwn = Cast<AShooterCharacter>(OwnerComp.GetAIOwner()->GetPawn());
-    if(!OwnerComp.GetAIOwner() or !AIPwn) return EBTNodeResult::Failure;
+    if(!OwnerComp.GetAIOwner() or !AIPwn) return EBTNodeResult::Failed;
     AIPwn->Shoot();
 
     return EBTNodeResult::Succeeded;
