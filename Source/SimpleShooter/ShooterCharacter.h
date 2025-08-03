@@ -28,6 +28,8 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	void Shoot();
 private:
 	void MoveForward(float AxisValue);
 	void LookUp(float AxisValue);
@@ -36,7 +38,7 @@ private:
 
 	void LookUpRate(float AxisValue);
 	void LookRightRate(float AxisValue);
-	void Shoot();
+	
 
 	UPROPERTY(EditAnywhere)
 	float RotationRate = 10;
