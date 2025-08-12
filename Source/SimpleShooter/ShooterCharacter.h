@@ -30,6 +30,9 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	void Shoot();
+
+	UFUNCTION(BlueprintPure)
+	bool IsDead() const;
 private:
 	void MoveForward(float AxisValue);
 	void LookUp(float AxisValue);
@@ -54,7 +57,4 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	float Health;
-
-	UFUNCTION(BlueprintPure)
-	bool IsDead() const;
 };

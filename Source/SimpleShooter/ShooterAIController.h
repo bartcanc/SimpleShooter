@@ -14,12 +14,13 @@ class SIMPLESHOOTER_API AShooterAIController : public AAIController
 {
 	GENERATED_BODY()
 
-	protected:
+public:
+	virtual void Tick(float DeltaTime) override;
+	bool IsDead() const;
+protected:
 	virtual void BeginPlay() override;
 
-	virtual void Tick(float DeltaTime) override;
-
-	private:
+private:
 	APawn* PlayerPawn;
 	APawn* ControlledPawn;
 
