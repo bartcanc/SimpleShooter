@@ -73,6 +73,8 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent -> BindAxis(TEXT("LookRightRate"), this, &AShooterCharacter::LookRightRate);
 
 	PlayerInputComponent -> BindAction(TEXT("PullTrigger"), EInputEvent::IE_Pressed, this, &AShooterCharacter::Shoot);
+
+	PlayerInputComponent -> BindAction(TEXT("Reload"), EInputEvent::IE_Pressed, this, &AShooterCharacter::Reload);
 }
 
 void AShooterCharacter::MoveForward(float AxisValue)
@@ -110,6 +112,11 @@ void AShooterCharacter::Shoot()
 	Gun -> PullTrigger();
 }
 
+void AShooterCharacter::Reload()
+{
+	Gun -> Reload();
+}
+
 bool AShooterCharacter::IsDead() const
 {
 	return (Health <= 0);
@@ -118,5 +125,10 @@ bool AShooterCharacter::IsDead() const
 float AShooterCharacter::GetHealthPercent() const
 {
 	return Health/MaxHealth;
+}
+
+float AShooterCharacter::GetPlayersGunAmmo() const
+{
+	return Gun->GetCurrentAmmo();
 }
 

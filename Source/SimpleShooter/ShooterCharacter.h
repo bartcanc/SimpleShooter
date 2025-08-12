@@ -30,12 +30,16 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	void Shoot();
+	void Reload();
 
 	UFUNCTION(BlueprintPure)
 	bool IsDead() const;
 
 	UFUNCTION(BlueprintPure)
 	float GetHealthPercent() const;
+
+	UFUNCTION(BlueprintPure)
+	float GetPlayersGunAmmo() const;
 private:
 	void MoveForward(float AxisValue);
 	void LookUp(float AxisValue);

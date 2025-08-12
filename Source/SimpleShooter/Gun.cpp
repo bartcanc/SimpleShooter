@@ -19,10 +19,15 @@ AGun::AGun()
 
 	Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
 	Mesh->SetupAttachment(Root);
+
+	CurrentAmmo = MaxAmmo;
 }
 
 void AGun::PullTrigger()
 {
+	if(CurrentAmmo <= 0) return;
+	CurrentAmmo--;
+	UE_LOG(LogTemp, Display, TEXT("Ammo: %f"), CurrentAmmo);
 	UGameplayStatics::SpawnEmitterAttached(MuzzleFlash, Mesh, TEXT("MuzzleFlashSocket"));
 	UGameplayStatics::SpawnSoundAttached(MuzzleSound, Mesh, TEXT("MuzzleFlashSocket"));
 	FHitResult Hit;
@@ -40,6 +45,16 @@ void AGun::PullTrigger()
 			UE_LOG(LogTemp, Warning, TEXT("You've been shot!"));
 		} 
 	}
+}
+
+void AGun::Reload()
+{
+	if(CurrentAmmo < MaxAmmo) CurrentAmmo = MaxAmmo;
+}
+
+float AGun::GetCurrentAmmo() const
+{
+	return CurrentAmmo;
 }
 // Called when the game starts or when spawned
 void AGun::BeginPlay()

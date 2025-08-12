@@ -15,6 +15,10 @@ public:
 	// Sets default values for this actor's properties
 	AGun();
 	void PullTrigger();
+	void Reload();
+
+	UFUNCTION(BlueprintPure)
+	float GetCurrentAmmo() const;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -50,4 +54,10 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	USoundBase* ImpactSound;
+
+	UPROPERTY(EditAnywhere)
+	float MaxAmmo = 40;
+
+	UPROPERTY()
+	float CurrentAmmo;
 };
