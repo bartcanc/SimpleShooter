@@ -37,6 +37,12 @@ float AShooterCharacter::TakeDamage(float DamageAmount, struct FDamageEvent cons
 {
 	float DamageApplied = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 
+	if(Health > 0) 
+	{
+		Health -= DamageApplied;
+		UE_LOG(LogTemp, Display, TEXT("\nDamage Taken: %f\nCurrent Health: %f"), DamageApplied, Health);
+	}
+
 	if(IsDead())
 	{
 		ASimpleShooterGameModeBase* GameMode = GetWorld() -> GetAuthGameMode<ASimpleShooterGameModeBase>();
@@ -47,12 +53,6 @@ float AShooterCharacter::TakeDamage(float DamageAmount, struct FDamageEvent cons
 
 		DetachFromControllerPendingDestroy();
 		GetCapsuleComponent() -> SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	}
-
-	if(Health > 0) 
-	{
-		Health -= DamageApplied;
-		UE_LOG(LogTemp, Display, TEXT("\nDamage Taken: %f\nCurrent Health: %f"), DamageApplied, Health);
 	}
 	return DamageApplied;
 }

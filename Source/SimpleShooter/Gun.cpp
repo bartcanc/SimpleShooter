@@ -24,19 +24,20 @@ AGun::AGun()
 void AGun::PullTrigger()
 {
 	UGameplayStatics::SpawnEmitterAttached(MuzzleFlash, Mesh, TEXT("MuzzleFlashSocket"));
-	
+	UGameplayStatics::SpawnSoundAttached(MuzzleSound, Mesh, TEXT("MuzzleFlashSocket"));
 	FHitResult Hit;
 	FVector ShotDirection;
 	bool bSuccess = GunTrace(Hit, ShotDirection);
 	if(bSuccess)
 	{
-		UGameplayStatics::SpawnEmitterAtLocation(this, ImpactFlash, Hit.Location, ShotDirection.Rotation(), true);
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ImpactFlash, Hit.Location, ShotDirection.Rotation(), true);
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), ImpactSound, Hit.Location, ShotDirection.Rotation());
 
 		if(Hit.GetActor())
 		{
 			FPointDamageEvent DamageEvent(Damage, Hit, ShotDirection, nullptr);
 			Hit.GetActor() -> TakeDamage(Damage, DamageEvent, GetOwnerController(), this);
-			UE_LOG(LogTemp, Warning, TEXT("You've beed shot!"));
+			UE_LOG(LogTemp, Warning, TEXT("You've been shot!"));
 		} 
 	}
 }
@@ -60,7 +61,6 @@ bool AGun::GunTrace(FHitResult &Hit, FVector &ShotDirection)
 	GetOwnerController() -> GetPlayerViewPoint(ShotLocation, ShotRotation);
 
 	ShotDirection = -ShotRotation.Vector();
-	UGameplayStatics::SpawnEmitterAtLocation(this, ImpactFlash, Hit.Location, ShotDirection.Rotation(), true);
 
 	FVector End = ShotLocation + ShotRotation.Vector() * MaxRange;
 
