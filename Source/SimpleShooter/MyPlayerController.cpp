@@ -30,5 +30,20 @@ void AMyPlayerController::GameHasEnded(class AActor* EndGameFocus, bool bIsWinne
 
        // UE_LOG(LogTemp, Warning, TEXT("You lost!"));
     }
+    if (HUD != nullptr)
+    {
+        HUD -> RemoveFromViewport();
+    }
     GetWorldTimerManager().SetTimer(RestartTimer, this, &AMyPlayerController::RestartLevel, RestartDelay);
+}
+
+void AMyPlayerController::BeginPlay()
+{
+    Super::BeginPlay();
+
+    HUD = CreateWidget(this, HUDClass);
+    if (HUD != nullptr)
+    {
+        HUD -> AddToViewport();
+    }
 }
